@@ -1,6 +1,11 @@
+/*global
+    Medida
+*/
+
+
 // Clase temperatura hereda de medida
-(function(exports) {
-    "use strict"
+(function() {
+    
     
     function Temperatura(valor, tipo) {
         
@@ -14,56 +19,65 @@
     // Clase celsius heredada de temperatura
     function Celsius(valor) {
         
-        Temperatura.call(this, valor);
+        Temperatura.call(this, valor, "c");
     }
     
     Celsius.prototype = new Temperatura();
     Celsius.prototype.constructor = Celsius;
+    Medida.measures.c = Celsius;
     
-    Celsius.prototype.toFarenheit = function () {
-        return (this.valor * 9 / 5 + 32);
+    Celsius.prototype.toFahrenheit = function () {
+        return new Fahrenheit(this.valor * 9 / 5 + 32);
     };
     Celsius.prototype.toKelvin = function () {
-        return (this.valor + 273.15);
+        return new Kelvin(this.valor + 273.15);
     };
     
-    
+    Celsius.prototype.toString = function () {
+        return this.valor.toFixed(2) + " Celsius";
+    };
     
     // Clase farenheit heredada de temperatura
-    function Farenheit(valor) {
+    function Fahrenheit(valor) {
         
-        Temperatura.call(this, valor);
+        Temperatura.call(this, valor, "f");
     }
     
-    Farenheit.prototype = new Temperatura();
-    Farenheit.prototype.constructor = Farenheit;
+    Fahrenheit.prototype = new Temperatura();
+    Fahrenheit.prototype.constructor = Fahrenheit;
+    Medida.measures.f = Fahrenheit;
     
-    Farenheit.prototype.toCelsius = function () {
-        return ((this.valor - 32) * 5 / 9);
+    Fahrenheit.prototype.toCelsius = function () {
+        return new Celsius((this.valor - 32) * 5 / 9);
     };
-    Farenheit.prototype.toKelvin = function () {
-        return ((this.valor - 32) * 5 / 9 + 273.15);
+    Fahrenheit.prototype.toKelvin = function () {
+        return new Kelvin((this.valor - 32) * 5 / 9 + 273.15);
+    };
+    
+    Fahrenheit.prototype.toString = function () {
+        return this.valor.toFixed(2) + " Fahrenheit";
     };
     
     
     // Clase kelvin heredada de temperatura
     function Kelvin(valor) {
         
-        Temperatura.call(this, valor);
+        Temperatura.call(this, valor, "k");
     }
     
     Kelvin.prototype = new Temperatura();
     Kelvin.prototype.constructor = Kelvin;
+    Medida.measures.k = Kelvin;
     
     Kelvin.prototype.toCelsius = function () {
-        return (this.valor - 273.15);
+        return new Celsius(this.valor - 273.15);
     };
-    Kelvin.prototype.toFarenheit = function () {
-        return ((this.valor -273.15) * 9 / 5 + 32);
+    Kelvin.prototype.toFahrenheit = function () {
+        return new Fahrenheit((this.valor -273.15) * 9 / 5 + 32);
     };
     
-    exports.Temperatura = Temperatura;
-    exports.Celsius = Celsius;
-    exports.Farenheit = Farenheit;
-    exports.Kelvin = Kelvin;
+    Kelvin.prototype.toString = function () {
+        return this.valor.toFixed(2) + " Kelvin";
+    };
+    
 })(this);
