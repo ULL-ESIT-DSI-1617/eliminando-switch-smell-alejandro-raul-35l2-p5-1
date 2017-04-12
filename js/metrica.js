@@ -1,6 +1,10 @@
+/*global
+    Medida
+*/
+
 // Clase metrica hereda de medida
-(function(exports) {
-    "use strict"
+(function() {
+    
     
     function Metrica(valor, tipo) {
         
@@ -14,31 +18,39 @@
     // Clase pulgada heredada de metrica
     function Pulgadas(valor) {
         
-        Metrica.call(this, valor);
+        Metrica.call(this, valor, "i");
     }
     
     Pulgadas.prototype = new Metrica();
     Pulgadas.prototype.constructor = Pulgadas;
+    Medida.measures.i = Pulgadas;
     
     Pulgadas.prototype.toMetros = function () {
-        return (this.valor * 0.0254);
+        return new Metros(this.valor * 0.0254);
+    };
+    
+    Pulgadas.prototype.toString = function () {
+        return this.valor.toFixed(2) + " Pulgadas";
     };
     
     
     // Clase metros heredada de metrica
     function Metros(valor) {
         
-        Metrica.call(this, valor);
+        Metrica.call(this, valor, "m");
     }
     
     Metros.prototype = new Metrica();
     Metros.prototype.constructor = Metros;
+    Medida.measures.m = Metros;
     
     Metros.prototype.toPulgadas = function () {
-        return (this.valor * 39.3701);
+        return new Pulgadas(this.valor * 39.3701);
     };
     
-    exports.Metrica = Metrica;
-    exports.Pulgadas = Pulgadas;
-    exports.Metros = Metros;
+    Metros.prototype.toString = function () {
+        return this.valor.toFixed(2) + " Metros";
+    };
+    
+    
 })(this);
